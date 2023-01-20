@@ -10,7 +10,7 @@ export class Order {
   buyerId: string;
 
   @Prop()
-  catalogId: string;
+  productIds: string[];
 
   @Prop()
   sellerId: string;

@@ -6,6 +6,7 @@ import { SellerModule } from './seller/seller.module';
 import { BuyerModule } from './buyer/buyer.module';
 import { CatalogModule } from './catalog/catalog.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UserModule } from './user/user.module';
 
 const mongooseModule = MongooseModule.forRootAsync({
   imports: [],
@@ -25,6 +26,7 @@ const mongooseModule = MongooseModule.forRootAsync({
     SellerModule,
     BuyerModule,
     CatalogModule,
+    UserModule,
   ],
 })
 export class AppModule {}

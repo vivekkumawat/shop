@@ -13,6 +13,9 @@ export class Catalog {
   sellerId: string;
 
   @Prop()
+  productIds: string[];
+
+  @Prop()
   createdAt?: Date;
 
   @Prop()

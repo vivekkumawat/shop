@@ -10,7 +10,7 @@ export class Product {
   name: string;
 
   @Prop()
-  price: string;
+  price: number;
 
   @Prop()
   catalogId: string;
@@ -23,4 +23,5 @@ export class Product {
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
+ProductSchema.index({ catalogId: 1 });
 export type ProductDocument = Product & Document;
