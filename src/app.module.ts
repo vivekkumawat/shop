@@ -7,18 +7,25 @@ import { BuyerModule } from './buyer/buyer.module';
 import { CatalogModule } from './catalog/catalog.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import configuration from 'config/configuration';
 
 const mongooseModule = MongooseModule.forRootAsync({
-  imports: [],
-  useFactory: async () => ({
-    uri: 'mongodb+srv://shop:YoThisIsMyPassword@cluster0.gdjmq.mongodb.net/shop',
+  imports: [ConfigModule],
+  useFactory: async (configService: ConfigService) => ({
+    uri: configService.get<string>('MONGODB_URI'),
     appname: 'shop',
   }),
-  inject: [],
+  inject: [ConfigService],
 });
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [configuration],
+      ignoreEnvFile: true,
+    }),
     mongooseModule,
     AuthModule,
     ProductModule,

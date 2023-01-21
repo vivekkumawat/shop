@@ -9,7 +9,6 @@ import { OrderService } from '../order/order.service';
 import { CatalogService } from '../catalog/catalog.service';
 import { CreateCatalogDto } from '../catalog/dtos/create-catalog.dto';
 import { ProductService } from '../product/product.service';
-import { UserService } from '../user/user.service';
 
 @ApiBearerAuth(AuthToken)
 @ApiTags('Seller endpoints')
@@ -19,7 +18,6 @@ export class SellerController {
     private readonly orderService: OrderService,
     private readonly catalogService: CatalogService,
     private readonly productService: ProductService,
-    private readonly userService: UserService,
   ) {}
 
   @UseGuards(AuthGuard('jwt'), SellerAuthGuard)

@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 import { AuthToken } from './constants';
-import { BuyerAuthGuard } from './auth/guards/buyer-auth.guard';
+import { MongoErrorFilter } from './shared/filters/mongo-error.filter';
 
 function swaggerModule(app: INestApplication, swaggerPath: string): void {
   const options = new DocumentBuilder()
@@ -22,6 +22,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   swaggerModule(app, '/swagger');
   app.use(helmet());
+  app.useGlobalFilters(new MongoErrorFilter());
   await app.listen(3000);
 }
 bootstrap();

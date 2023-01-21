@@ -1,0 +1,8 @@
+{
+  "mongoDB": {
+    "url": "mongodb+srv://shop:YoThisIsMyPassword@cluster0.gdjmq.mongodb.net/shop"
+  },
+  "JWT": {
+    "secret": "jwt_secret"
+  }
+}

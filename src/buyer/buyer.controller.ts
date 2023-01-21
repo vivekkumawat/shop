@@ -1,9 +1,15 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { OrderService } from '../order/order.service';
 import { CatalogService } from '../catalog/catalog.service';
-import { Seller } from '../seller/schemas/seller.schema';
-import { SellerService } from '../seller/seller.service';
 import { CreateOrderDto } from './dtos/create-order.dto';
 import { AuthToken } from '../constants';
 import { AuthGuard } from '@nestjs/passport';
@@ -35,6 +41,9 @@ export class BuyerController {
   @Get('seller-catalog/:sellerId')
   async sellerCatalog(@Param('sellerId') sellerId: string) {
     const catalog = await this.catalogService.getCatalogBySellerId(sellerId);
+    if (!catalog) {
+      throw new BadRequestException(`Seller don't have any catalog yet`);
+    }
     const products = await this.productService.getAllProductsOfSeller(
       catalog._id,
     );
@@ -52,6 +61,24 @@ export class BuyerController {
     @Body() createOrderDto: CreateOrderDto,
     @AuthenticatedUser() buyer: User,
   ) {
+    const catalog = await this.catalogService.getCatalogBySellerId(sellerId);
+    if (!catalog) {
+      throw new BadRequestException(`Seller don't have any catalog yet`);
+    }
+    const products = await this.productService.getAllProductsOfSeller(
+      catalog._id,
+    );
+    const isProductBelongsToCatalog = createOrderDto.productIds.every(
+      (inputProductId) => {
+        return products.some((product) => inputProductId === product._id);
+      },
+    );
+    if (!isProductBelongsToCatalog) {
+      throw new BadRequestException(
+        `Products not found in the seller's catalog`,
+      );
+    }
+
     const createOrderPayload: ICreateOrder = {
       sellerId: sellerId,
       buyerId: buyer._id,

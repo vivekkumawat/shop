@@ -8,7 +8,6 @@ import { OrderModule } from '../order/order.module';
 import { AuthModule } from '../auth/auth.module';
 import { CatalogModule } from '../catalog/catalog.module';
 import { ProductModule } from 'src/product/product.module';
-import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [
@@ -17,7 +16,6 @@ import { UserModule } from 'src/user/user.module';
     AuthModule,
     CatalogModule,
     ProductModule,
-    UserModule,
   ],
   providers: [SellerService, SellerDao],
   controllers: [SellerController],

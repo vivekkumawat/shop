@@ -37,6 +37,9 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() payload: RegisterDto) {
-    return await this.userService.createUser(payload);
+    const user = await this.userService.createUser(payload);
+    return {
+      message: 'user created successfully',
+    };
   }
 }
